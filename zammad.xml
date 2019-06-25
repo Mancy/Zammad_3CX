@@ -6,8 +6,8 @@
     <Parameter Name="ctiUrl" Type="String" Parent="General Configuration" Editor="String" Title="Zammad CTI Token:" Default="Your Zammad CTI Generic Endpoint URL" />
     <Parameter Name="zammadUrl" Type="String" Parent="General Configuration" Editor="String" Title="Zammad Ticket API URL:" Default="https://yourZammadURL" />
     <Parameter Name="apiToken" Type="String" Parent="General Configuration" Editor="String" Title="Zammad Ticket API Token:" Default="API Token Access (HTTP Token Authentication)" />
-    <Parameter Name="ReportCallEnabled" Type="Boolean" Editor="String" Title="Enable Call Journaling" Default="False" />
-    <Parameter Name="tofield" Type="String" Parent="ReportCallEnabled" Editor="String" Title="Queue Name without spaces" Default="CustomerService" />
+    <Parameter Name="ReportCallEnabled" Type="Boolean" Editor="String" Title="Enable Call Journaling" Default="True" />
+    <Parameter Name="tofield" Type="String" Parent="ReportCallEnabled" Editor="String" Title="Queue Name" Default="Customer Service" />
     <Parameter Name="CreateContactEnabled" Type="Boolean" Editor="String" Title="Enable Contact Creation" Default="True" />
     <Parameter Name="CreateContactFirstName" Type="String" Parent="CreateContactEnabled" Editor="String" Title="New Contact Name:" Default="[Number]" />
     <Parameter Name="CreateContactLastName" Type="String" Parent="CreateContactEnabled" Editor="String" Title="New Contact Name:" Default="3CX" />
@@ -15,13 +15,25 @@
   <Authentication Type="No" />
   <Scenarios>
     <Scenario Type="REST">
+      <Request SkipIf="[ReportCallEnabled]!=True" Url="http://worldclockapi.com/api/json/utc/now" RequestType="Get" ResponseType="Json"/>
+      <Rules>
+        <Rule Type="Any">currentDateTime</Rule>
+      </Rules>
+      <Variables>
+        <Variable Name="Calldate" Path="currentDateTime" />
+      </Variables>
+      <Outputs Next="newCall" AllowEmpty="false">
+        <Output Type="Calldate" Passes="0" Value="[Calldate]" />
+      </Outputs>
+    </Scenario>
+    <Scenario Id="newCall" Type="REST">
       <Request SkipIf="[ReportCallEnabled]!=True" Url="[ctiUrl]" RequestEncoding="UrlEncoded" RequestType="Post" ResponseType="Json">
         <PostValues>
-          <Value Key="event" Passes="2" Type="String">newCall</Value>
-          <Value Key="callId" Passes="1" Type="String">[Number]</Value>
+          <Value Key="event" Passes="0" Type="String">newCall</Value>
+          <Value Key="callId" Passes="0" Type="String">[Number][Calldate]</Value>
           <Value Key="to" Passes="0" Type="String">[tofield]</Value>
           <Value Key="from" Passes="0" Type="String">[Number]</Value>
-          <Value Key="direction" Passes="2" Type="String">in</Value>
+          <Value Key="direction" Passes="0" Type="String">in</Value>
        </PostValues>
       </Request>
     </Scenario>
@@ -54,8 +66,8 @@
     <Scenario Id="ReportCall" Type="REST">
       <Request  SkipIf="[ReportCallEnabled]!=True" Url="[ctiUrl]" RequestEncoding="UrlEncoded" RequestType="Post" ResponseType="Json">
         <PostValues>
-          <Value Key="event" Passes="2" Type="String">hangup</Value>
-          <Value Key="callId" Passes="1" Type="String">[Number]</Value>
+          <Value Key="event" Passes="0" Type="String">hangup</Value>
+          <Value Key="callId" Passes="2" Type="String">[Number][[CallStartTimeUTC].ToString("yyyy-MM-ddTHH:mmZ")]</Value>
           <Value Key="to" Passes="0" Type="String">[Agent]</Value>
           <Value Key="from" Passes="0" Type="String">[Number]</Value>
           <Value Key="direction" Passes="2" Type="String">[IIf([CallType]==Inbound||[CallType]==Missed,in,out)]</Value>
@@ -67,7 +79,7 @@
           <Value Key="DurationTimespan" Passes="4" Type="String">[[[DurationTimespan].get_TotalMinutes()].ToString("F0")]</Value>
           <Value Key="DateTime" Passes="0" Type="String">[DateTime]</Value> 
           <Value Key="CallStartTimeLocal" Passes="2" Type="String">[[CallStartTimeLocal].ToString("yyyy-MM-ddTHH:mm:ssZ")]</Value>
-          <Value Key="CallStartTimeUTC" Passes="2" Type="String">[[CallStartTimeUTC].ToString("yyyy-MM-ddTHH:mm:ssZ")]</Value>
+          <Value Key="CallStartTimeUTC" Passes="2" Type="String">[[CallStartTimeUTC].ToString("yyyy-MM-ddTHH:mmZ")]</Value>
           <Value Key="CallEndTimeLocal" Passes="2" Type="String">[[CallEndTimeLocal].ToString("yyyy-MM-ddTHH:mm:ssZ")]</Value>
           <Value Key="CallEndTimeUTC" Passes="2" Type="String">[[CallEndTimeUTC].ToString("yyyy-MM-ddTHH:mm:ssZ")]</Value>
        </PostValues>
