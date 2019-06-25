@@ -8,4 +8,6 @@ The Zammad Ticket API Token can be issued from the user profile then "token acce
 Don't forget to set this option in 3CX "Match Caller ID's to a contact entry" to "Match exactly"
 from Advanced -> Contacts -> Options
 
-Currently the ReportCall event is not working because 3CX must send unique callid in both Contact lookup and Report Call events, to be accepted by Zammad CTI
+For ReportCall event to work I had to make a callID using the incoming phone number and datetime obtained from HTTP Request from the following URL
+```http://worldclockapi.com/api/json/utc/now``` using this key ```currentDateTime```
+Then this callID can be reproduced by concatonating the incoming phone number with the ```CallStartTimeUTC``` from 3CX in the hangup/ReportCall request
