@@ -1,4 +1,4 @@
-# Zammad_3CX
+# Zammad and 3CX Integration Template
 Contact Lookup and Automatic creation in Zammad
 
 To use this template goto your 3CX management console then from settings choose CRM Integration
