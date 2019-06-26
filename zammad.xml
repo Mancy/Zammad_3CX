@@ -3,9 +3,9 @@
   <Number Prefix="Off" MaxLength="[MaxLength]" />
   <Connection MaxConcurrentRequests="16" />
   <Parameters>
-    <Parameter Name="ctiUrl" Type="String" Parent="General Configuration" Editor="String" Title="Zammad CTI Token:" Default="Your Zammad CTI Generic Endpoint URL" />
-    <Parameter Name="zammadUrl" Type="String" Parent="General Configuration" Editor="String" Title="Zammad Ticket API URL:" Default="https://yourZammadURL" />
-    <Parameter Name="apiToken" Type="String" Parent="General Configuration" Editor="String" Title="Zammad Ticket API Token:" Default="API Token Access (HTTP Token Authentication)" />
+    <Parameter Name="ctiUrl" Type="String" Parent="General Configuration" Editor="String" Title="Zammad CTI Endpoint URL:" Default="Your Zammad CTI Generic Endpoint full URL" />
+    <Parameter Name="zammadUrl" Type="String" Parent="General Configuration" Editor="String" Title="Zammad URL:" Default="https://zammad.url.com" />
+    <Parameter Name="apiToken" Type="String" Parent="General Configuration" Editor="String" Title="Zammad API Token:" Default="User API Token Access (HTTP Token Authentication)" />
     <Parameter Name="ReportCallEnabled" Type="Boolean" Editor="String" Title="Enable Call Journaling" Default="True" />
     <Parameter Name="tofield" Type="String" Parent="ReportCallEnabled" Editor="String" Title="Queue Name" Default="Customer Service" />
     <Parameter Name="CreateContactEnabled" Type="Boolean" Editor="String" Title="Enable Contact Creation" Default="True" />
