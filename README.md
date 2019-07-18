@@ -1,5 +1,5 @@
 # Zammad and 3CX Integration Template
-Contact Lookup and Automatic creation in Zammad
+Contact lookup and automatic ticket creation in Zammad from 3cx
 
 ## Requirements
 
