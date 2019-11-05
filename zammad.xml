@@ -9,8 +9,8 @@
     <Parameter Name="ReportCallEnabled" Type="Boolean" Editor="String" Title="Enable Call Journaling" Default="True" />
     <Parameter Name="tofield" Type="String" Parent="ReportCallEnabled" Editor="String" Title="Queue Name" Default="Customer Service" />
     <Parameter Name="CreateContactEnabled" Type="Boolean" Editor="String" Title="Enable Contact Creation" Default="True" />
-    <Parameter Name="CreateContactFirstName" Type="String" Parent="CreateContactEnabled" Editor="String" Title="New Contact Name:" Default="[Number]" />
-    <Parameter Name="CreateContactLastName" Type="String" Parent="CreateContactEnabled" Editor="String" Title="New Contact Name:" Default="3CX" />
+    <Parameter Name="CreateContactFirstName" Type="String" Parent="CreateContactEnabled" Editor="String" Title="New Contact First Name:" Default="[Number]" />
+    <Parameter Name="CreateContactLastName" Type="String" Parent="CreateContactEnabled" Editor="String" Title="New Contact Last Name:" Default="3CX" />
   </Parameters>
   <Authentication Type="No" />
   <Scenarios>
